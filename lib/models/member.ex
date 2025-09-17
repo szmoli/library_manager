@@ -32,4 +32,11 @@ defmodule Models.Member do
       false -> {:error, :invalid_membership_type}
     end
   end
+
+  def borrow_book(member, book) do
+    case Member.can_borrow?(member) do
+      true -> {:ok, %Member{member | borrowed_books: [book|member.borrowed_books]}}
+      false -> {:error, :borrow_limit_reached}
+    end
+  end
 end
